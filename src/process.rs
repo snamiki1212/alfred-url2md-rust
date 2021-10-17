@@ -7,7 +7,7 @@ pub async fn url2md(url: &String) -> Result<String> {
         None => url.to_string(),
     };
     let title = title.trim();
-    let md = converter::convert(url, title);
+    let md = converter::convert(title, url);
     Ok(md)
 }
 
@@ -56,16 +56,15 @@ mod parser {
 }
 
 mod converter {
-    pub fn convert(url: &str, title: &str) -> String {
-        format!("[{}]({})", url, title)
+    pub fn convert(title: &str, url: &str) -> String {
+        format!("[{}]({})", title, url)
     }
 
     #[test]
     fn convert_test() {
         assert_eq!(
-            convert("https://google.com", "Google"),
-            "[https://google.com](Google)"
+            convert("Google", "https://google.com"),
+            "[Google](https://google.com)"
         );
     }
 }
-// "\n        \n            Rust Programming Language\n        \n        "
