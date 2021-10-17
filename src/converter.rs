@@ -19,8 +19,9 @@ pub async fn url2md(url: &String) -> Result<String, reqwest::Error> {
     // serialize
     // let re = Regex::new(r"(?![\s\\n]+$).").unwrap();
     // let title = re.captures(title.as_str()).unwrap();
-    println!("[serialized]title={:?}", title.trim());
-    Ok("[md](google.com)".to_string())
+    let title = title.trim();
+    println!("[serialized]title={:?}", title);
+    Ok(title.to_string())
 }
 
 // "\n        \n            Rust Programming Language\n        \n        "

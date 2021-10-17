@@ -13,7 +13,9 @@ struct Opts {
 #[tokio::main]
 async fn main() {
     let opts: Opts = Opts::parse();
-    if let md = converter::url2md(&opts.input).await {
-        println!("result ")
+    let result = converter::url2md(&opts.input).await;
+    match result {
+        Ok(title) => println!("result: {} ", title),
+        Err(e) => (),
     }
 }
