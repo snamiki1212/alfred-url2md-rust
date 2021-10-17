@@ -16,7 +16,7 @@ async fn main() {
     let opts: Opts = Opts::parse();
     let result = process::url2md(&opts.input).await;
     match result {
-        Ok(title) => println!("result: {} ", title),
+        Ok(title) => println!("{} ", title),
         Err(e) => (),
     }
 }

@@ -9,12 +9,24 @@ async fn fetch(url: &str) -> Result<String> {
 fn parse(dom: &str) -> String {
     let html = Html::parse_document(dom);
     let root_ref = html.root_element();
-    let title = root_ref
-        .select(&Selector::parse("title").unwrap())
-        .next()
-        .unwrap()
-        .inner_html();
+    let title = match root_ref.select(&Selector::parse("title").unwrap()).next() {
+        Some(element_ref) => element_ref.inner_html(),
+        None => "".to_string(),
+    };
+
     title
+}
+
+#[test]
+fn parse_test() {
+    assert_eq!(
+        parse("<!DOCTYLE><head><title>THIS IS TITLE</title></head>"),
+        "THIS IS TITLE"
+    );
+    assert_eq!(
+        parse("<!DOCTYLE><head><div>THIS IS NO TITLE</div></head>"),
+        ""
+    );
 }
 
 pub async fn url2md(url: &String) -> Result<String> {
