@@ -1,10 +1,10 @@
+// parser
 use scraper::{Html, Selector};
 
 pub async fn url2md(url: &String) -> Result<String, reqwest::Error> {
     // fetch
     let _url = "https://www.rust-lang.org";
     let body = reqwest::get(_url).await?.text().await?;
-    println!("title is {:?}", body);
 
     // parser
     let html = Html::parse_document(body.as_str());
@@ -15,7 +15,12 @@ pub async fn url2md(url: &String) -> Result<String, reqwest::Error> {
         .unwrap()
         .inner_html();
 
+    println!("[parsed]title={:?}", title);
     // serialize
-    println!("in url md: title={:?}", title);
+    // let re = Regex::new(r"(?![\s\\n]+$).").unwrap();
+    // let title = re.captures(title.as_str()).unwrap();
+    println!("[serialized]title={:?}", title.trim());
     Ok("[md](google.com)".to_string())
 }
+
+// "\n        \n            Rust Programming Language\n        \n        "
