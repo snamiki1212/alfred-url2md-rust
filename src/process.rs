@@ -1,7 +1,8 @@
+use anyhow::Result;
 // parser
 use scraper::{Html, Selector};
 
-pub async fn url2md(url: &String) -> Result<String, reqwest::Error> {
+pub async fn url2md(url: &String) -> Result<String> {
     // fetch
     let _url = "https://www.rust-lang.org";
     let body = reqwest::get(_url).await?.text().await?;
