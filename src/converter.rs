@@ -21,7 +21,16 @@ pub async fn url2md(url: &String) -> Result<String, reqwest::Error> {
     // let title = re.captures(title.as_str()).unwrap();
     let title = title.trim();
     println!("[serialized]title={:?}", title);
+
+    // converter
+    let md = convert(url, title);
+    println!("[converted]title={:?}", md);
+
     Ok(title.to_string())
+}
+
+fn convert(url: &str, title: &str) -> String {
+    format!("[{}]({})", url, title)
 }
 
 // "\n        \n            Rust Programming Language\n        \n        "
