@@ -1,5 +1,6 @@
 use clap::{AppSettings, Clap};
-mod converter;
+mod process;
+
 #[derive(Clap)]
 #[clap(
     version = "1.0",
@@ -13,7 +14,7 @@ struct Opts {
 #[tokio::main]
 async fn main() {
     let opts: Opts = Opts::parse();
-    let result = converter::url2md(&opts.input).await;
+    let result = process::url2md(&opts.input).await;
     match result {
         Ok(title) => println!("result: {} ", title),
         Err(e) => (),
