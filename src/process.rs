@@ -2,10 +2,13 @@ use anyhow::Result;
 // parser
 use scraper::{Html, Selector};
 
+async fn fetch(url: &str) -> Result<String> {
+    Ok(reqwest::get(url).await?.text().await?)
+}
+
 pub async fn url2md(url: &String) -> Result<String> {
     // fetch
-    let _url = "https://www.rust-lang.org";
-    let body = reqwest::get(_url).await?.text().await?;
+    let body = fetch(url).await?;
 
     // parser
     let html = Html::parse_document(body.as_str());
