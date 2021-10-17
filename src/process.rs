@@ -6,18 +6,20 @@ async fn fetch(url: &str) -> Result<String> {
     Ok(reqwest::get(url).await?.text().await?)
 }
 
-pub async fn url2md(url: &String) -> Result<String> {
-    // fetch
-    let body = fetch(url).await?;
-
-    // parser
-    let html = Html::parse_document(body.as_str());
+fn parse(dom: &str) -> String {
+    let html = Html::parse_document(dom);
     let root_ref = html.root_element();
     let title = root_ref
         .select(&Selector::parse("title").unwrap())
         .next()
         .unwrap()
         .inner_html();
+    title
+}
+
+pub async fn url2md(url: &String) -> Result<String> {
+    let dom = fetch(url).await?;
+    let title = parse(dom.as_str());
 
     println!("[parsed]title={:?}", title);
     // serialize
