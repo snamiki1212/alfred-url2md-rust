@@ -20,19 +20,9 @@ fn parse(dom: &str) -> String {
 pub async fn url2md(url: &String) -> Result<String> {
     let dom = fetch(url).await?;
     let title = parse(dom.as_str());
-
-    println!("[parsed]title={:?}", title);
-    // serialize
-    // let re = Regex::new(r"(?![\s\\n]+$).").unwrap();
-    // let title = re.captures(title.as_str()).unwrap();
     let title = title.trim();
-    println!("[serialized]title={:?}", title);
-
-    // converter
     let md = convert(url, title);
-    println!("[converted]title={:?}", md);
-
-    Ok(title.to_string())
+    Ok(md)
 }
 
 fn convert(url: &str, title: &str) -> String {
