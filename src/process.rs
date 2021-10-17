@@ -24,7 +24,16 @@ mod parser {
     pub fn parse(dom: &str) -> Option<String> {
         let html = Html::parse_document(dom);
         let root_ref = html.root_element();
-        let title = match root_ref.select(&Selector::parse("title").unwrap()).next() {
+        let parsed = &Selector::parse("title");
+        let selector = match parsed {
+            Ok(selector) => selector,
+            Err(err) => {
+                eprintln!("{:?}", err);
+                return None;
+            }
+        };
+
+        let title = match root_ref.select(selector).next() {
             Some(element_ref) => element_ref.inner_html(),
             None => return None,
         };
@@ -38,10 +47,12 @@ mod parser {
             parse("<!DOCTYLE><head><title>THIS IS TITLE</title></head>").unwrap(),
             "THIS IS TITLE"
         );
-        assert_eq!(
-            parse("<!DOCTYLE><head><div>THIS IS NO TITLE</div></head>").unwrap(),
-            ""
-        );
+    }
+
+    #[test]
+    #[should_panic]
+    fn parse_cannot_find_title_test() {
+        parse("<!DOCTYLE><head><div>THIS IS NO TITLE</div></head>").unwrap();
     }
 }
 
