@@ -17,6 +17,6 @@ async fn main() {
     let result = process::url2md(&opts.input).await;
     match result {
         Ok(title) => println!("{} ", title),
-        Err(e) => (),
+        Err(_err) => {}
     }
 }

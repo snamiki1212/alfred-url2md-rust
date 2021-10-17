@@ -19,7 +19,6 @@ mod fetcher {
 }
 
 mod parser {
-    // use anyhow::Option;
     use scraper::{Html, Selector};
     pub fn parse(dom: &str) -> Option<String> {
         let html = Html::parse_document(dom);
@@ -27,8 +26,8 @@ mod parser {
         let parsed = &Selector::parse("title");
         let selector = match parsed {
             Ok(selector) => selector,
-            Err(err) => {
-                eprintln!("{:?}", err);
+            Err(_err) => {
+                // eprintln!("{:?}", err);
                 return None;
             }
         };
