@@ -4,7 +4,7 @@ CLI url converter into markdown syntac.
 
 ## Installation
 
-[DL:URL2MD-rust](https://github.com/snamiki1212/alfred-url2md-rust/releases/download/v1.0.0/URL2MD-rust.alfredworkflow)
+[Download: URL2MD-rust](https://github.com/snamiki1212/alfred-url2md-rust/releases/download/v1.0.0/URL2MD-rust.alfredworkflow)
 
 ## How to: Alfred
 
