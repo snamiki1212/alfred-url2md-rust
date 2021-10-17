@@ -2,7 +2,10 @@ use anyhow::Result;
 
 pub async fn url2md(url: &String) -> Result<String> {
     let dom = fetcher::fetch(url).await?;
-    let title = parser::parse(dom.as_str());
+    let title = match parser::parse(dom.as_str()) {
+        Some(title) => title,
+        None => url.to_string(),
+    };
     let title = title.trim();
     let md = converter::convert(url, title);
     Ok(md)
@@ -16,26 +19,27 @@ mod fetcher {
 }
 
 mod parser {
+    // use anyhow::Option;
     use scraper::{Html, Selector};
-    pub fn parse(dom: &str) -> String {
+    pub fn parse(dom: &str) -> Option<String> {
         let html = Html::parse_document(dom);
         let root_ref = html.root_element();
         let title = match root_ref.select(&Selector::parse("title").unwrap()).next() {
             Some(element_ref) => element_ref.inner_html(),
-            None => "".to_string(),
+            None => return None,
         };
 
-        title
+        Some(title)
     }
 
     #[test]
     fn parse_test() {
         assert_eq!(
-            parse("<!DOCTYLE><head><title>THIS IS TITLE</title></head>"),
+            parse("<!DOCTYLE><head><title>THIS IS TITLE</title></head>").unwrap(),
             "THIS IS TITLE"
         );
         assert_eq!(
-            parse("<!DOCTYLE><head><div>THIS IS NO TITLE</div></head>"),
+            parse("<!DOCTYLE><head><div>THIS IS NO TITLE</div></head>").unwrap(),
             ""
         );
     }
