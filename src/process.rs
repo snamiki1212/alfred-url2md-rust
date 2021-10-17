@@ -41,4 +41,12 @@ fn convert(url: &str, title: &str) -> String {
     format!("[{}]({})", url, title)
 }
 
+#[test]
+fn convert_test() {
+    assert_eq!(
+        convert("https://google.com", "Google"),
+        "[https://google.com](Google)"
+    );
+}
+
 // "\n        \n            Rust Programming Language\n        \n        "
