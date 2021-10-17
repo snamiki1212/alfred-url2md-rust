@@ -9,8 +9,11 @@ mod converter;
 struct Opts {
     input: String,
 }
-fn main() {
+
+#[tokio::main]
+async fn main() {
     let opts: Opts = Opts::parse();
-    let md = converter::url2md(&opts.input);
-    println!("{}", md);
+    if let md = converter::url2md(&opts.input).await {
+        println!("result ")
+    }
 }
