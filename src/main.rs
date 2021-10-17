@@ -1,5 +1,5 @@
 use clap::{AppSettings, Clap};
-
+mod converter;
 #[derive(Clap)]
 #[clap(
     version = "1.0",
@@ -11,10 +11,6 @@ struct Opts {
 }
 fn main() {
     let opts: Opts = Opts::parse();
-    let md = url2md(&opts.input);
+    let md = converter::url2md(&opts.input);
     println!("{}", md);
-}
-
-fn url2md(url: &String) -> String {
-    "[md](google.com)".to_string()
 }
